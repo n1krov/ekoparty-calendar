@@ -132,7 +132,7 @@
               `${fmt(s.a)}–${fmt(s.b)}`,
               ROOMS[s.room].n,
               durTxt(s.dur),
-              KINDS[s.kind as keyof typeof KINDS] || '',
+              KINDS[s.kind] || '',
               s.es ? 'Español' : '',
               s.track,
             ]

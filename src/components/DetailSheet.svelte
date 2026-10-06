@@ -127,7 +127,7 @@
 
         {#if activeSession.kind}
           <dt>Formato</dt>
-          <dd>{KINDS[activeSession.kind as keyof typeof KINDS]}</dd>
+          <dd>{KINDS[activeSession.kind] || ''}</dd>
         {/if}
 
         {#if activeSession.es}

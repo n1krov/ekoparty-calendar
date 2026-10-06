@@ -27,7 +27,7 @@ export const DAYS: Record<DayId, DayInfo> = {
   9: { w: 'Viernes', s: 'Vie', d: '9 de octubre' },
 };
 
-export const KINDS: Record<KindId, string> = {
+export const KINDS: Record<string, string> = {
   s: 'Charla',
   l: 'Lightning talk',
   w: 'Apertura',

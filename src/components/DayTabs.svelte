@@ -49,7 +49,7 @@
   }
 </script>
 
-<nav class="days" id="days" role="tablist" aria-label="Día">
+<div class="days" id="days" role="tablist" aria-label="Día">
   {#each dayStats as stat}
     <button
       type="button"
@@ -97,4 +97,4 @@
       <span class="dm">{sessions.length}</span>
     </button>
   {/if}
-</nav>
+</div>
