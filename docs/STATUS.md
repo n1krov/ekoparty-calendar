@@ -105,3 +105,4 @@
 - Ante el bloqueo de red para comandos de descarga (`npm`, `npx`, `bun`), se aprobó ADR-003: se canceló el proceso bloqueante y se construyeron artesanalmente todos los cimientos del proyecto en `src/` (28 archivos modulares cubriendo tipos, datos, utilidades, stores desacoplados y todos los componentes Svelte requeridos para paridad total).
 - Se redactó `docs/specs/04-pipeline-deploy-gh-pages.md` y se aprobó ADR-004 para automatizar la entrega continua en GitHub Pages.
 - Se implementó el pipeline de GitHub Actions en `.github/workflows/deploy.yml`.
+- Se corrigió el error en GitHub Actions eliminando `cache: 'npm'` en `actions/setup-node@v4` debido a la ausencia inicial de `package-lock.json` en el repositorio, y se fijaron las versiones de Svelte a 4.x estable.

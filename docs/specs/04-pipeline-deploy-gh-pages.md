@@ -52,8 +52,8 @@ El workflow se organiza en dos jobs desacoplados:
    - **Runner:** `ubuntu-latest`.
    - **Steps:**
      1. Checkout del código (`actions/checkout@v4`).
-     2. Setup de Node.js v22 LTS con caché automática de npm (`actions/setup-node@v4`).
-     3. Instalación limpia de dependencias con `npm ci` (o `npm install`).
+     2. Setup de Node.js v22 LTS (`actions/setup-node@v4`). Se omite la directiva `cache: 'npm'` para evitar fallos si el repositorio no cuenta aún con `package-lock.json`.
+     3. Instalación de dependencias con `npm install`.
      4. Verificación estricta de tipos: `npm run check` (si está disponible) o `npx tsc --noEmit`.
      5. Compilación del bundle estático: `npm run build`.
      6. Configuración de páginas (`actions/configure-pages@v5`).
