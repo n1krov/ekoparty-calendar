@@ -106,3 +106,4 @@
 - Se redactó `docs/specs/04-pipeline-deploy-gh-pages.md` y se aprobó ADR-004 para automatizar la entrega continua en GitHub Pages.
 - Se implementó el pipeline de GitHub Actions en `.github/workflows/deploy.yml`.
 - Se corrigió el error en GitHub Actions eliminando `cache: 'npm'` en `actions/setup-node@v4` debido a la ausencia inicial de `package-lock.json` en el repositorio, y se fijaron las versiones de Svelte a 4.x estable.
+- Se añadió un `package-lock.json` (lockfileVersion 3) para garantizar compatibilidad total con detectores de paquetes y herramientas de CI.
