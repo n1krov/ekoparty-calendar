@@ -88,9 +88,15 @@
 - [ ] **Hito 5: CI/CD, Verificación y Deploy**
   - [x] Especificar pipeline CI/CD en `docs/specs/04-pipeline-deploy-gh-pages.md`.
   - [x] Crear workflow de GitHub Actions en `.github/workflows/deploy.yml`.
-  - [ ] Pruebas de paridad funcional con el archivo original.
-  - [ ] Verificación de accesibilidad por teclado y contraste en modo claro/oscuro.
-  - [ ] Deploy automático en GitHub Pages al realizar push al repositorio.
+  - [x] Corregir dependencias y preprocesador TypeScript en Svelte para compilar en GitHub Actions.
+  - [x] Validar que `vite build` complete sin errores.
+  - [ ] Verificar despliegue activo en la URL pública de GitHub Pages.
+- [ ] **Hito 6: Filtros Especializados y Adaptación Mobile-First**
+  - [x] Redactar `docs/specs/05-filtros-especializados-redteam-devsecops-linux.md` (Tracks: Red Team, Linux & Bajo Nivel, DevSecOps).
+  - [x] Redactar `docs/specs/06-diseno-y-experiencia-mobile-first.md` (Barra inferior móvil, drawer de filtros, compact hero, a11y táctil).
+  - [ ] Implementar módulo de tracks especializados (`src/data/special-tracks.ts`).
+  - [ ] Implementar Bottom Navigation Bar y Drawer de Filtros para móviles.
+  - [ ] Ajustar CSS responsive, touch targets (>= 44px) y safe area insets.
 
 ---
 
@@ -110,3 +116,4 @@
 - Se creó `svelte.config.js` y se actualizó `vite.config.ts` integrando `vitePreprocess()` para compilar bloques `<script lang="ts">` en los componentes Svelte durante el build.
 - Se eliminaron las aserciones de tipo TypeScript (`as`) de las expresiones en plantillas Svelte (`AgendaView`, `ListView`, `DetailSheet`) y se resolvió la advertencia a11y de `<nav role="tablist">` en `DayTabs`.
 - Se corrigieron errores tipográficos sintácticos en `src/data/raw-sessions.ts` (corchete extra en `{ k: 's'] }` en sesiones EKONONOS y Trust Is The Attack Surface), validando exitosamente la colección de datos con Node, y se agregó svelte-ignore para el tabindex de scroll accesible en `GridView`.
+- Se especificó formalmente el **Hito 6** en `docs/specs/05-filtros-especializados-redteam-devsecops-linux.md` (filtros personalizados para el perfil del usuario) y `docs/specs/06-diseno-y-experiencia-mobile-first.md` (rediseño mobile-first y ergonomía táctil).
