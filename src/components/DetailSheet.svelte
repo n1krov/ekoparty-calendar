@@ -1,3 +1,4 @@
+<script lang="ts">
   import { onMount, tick } from 'svelte';
   import { DAYS, KINDS, ROOMS, SITE, TOPICS } from '../data/constants';
   import { byId } from '../data/sessions';

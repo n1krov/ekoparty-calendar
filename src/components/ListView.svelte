@@ -1,3 +1,4 @@
+<script lang="ts">
   import { DAYS, KINDS, ROOMS, TOPICS } from '../data/constants';
   import { sessions } from '../data/sessions';
   import { getSessionSpecialTracks } from '../data/special-tracks';

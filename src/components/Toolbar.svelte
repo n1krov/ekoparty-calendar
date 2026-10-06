@@ -1,3 +1,4 @@
+<script lang="ts">
   import { ROOM_ORDER, ROOMS, TOPICS } from '../data/constants';
   import { SPECIAL_TRACK_LIST } from '../data/special-tracks';
   import { favorites } from '../stores/favorites';

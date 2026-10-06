@@ -1,3 +1,4 @@
+<script lang="ts">
   import { DAYS, OFF, PX, ROOM_ORDER, ROOMS } from '../data/constants';
   import { sessions } from '../data/sessions';
   import { getSessionSpecialTracks } from '../data/special-tracks';
