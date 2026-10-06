@@ -133,7 +133,6 @@
                 aria-pressed={$activeSpecialTrack === track.id}
                 on:click={() => toggleSpecialTrack(track.id)}
               >
-                <span>{track.icon}</span>
                 {track.label}
               </button>
             {/each}

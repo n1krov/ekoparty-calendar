@@ -147,7 +147,7 @@
                 {#if s.tags.length || specialTracks.length}
                   <ul class="tp">
                     {#each specialTracks as st}
-                      <li class={`track-pill pill-${st.id}`}>{st.icon} {st.badge}</li>
+                      <li class={`track-pill pill-${st.id}`}>{st.badge}</li>
                     {/each}
                     {#each s.tags as tag}
                       <li>{TOPICS[tag]}</li>

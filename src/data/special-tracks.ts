@@ -5,7 +5,6 @@ export interface SpecialTrackInfo {
   label: string;
   shortLabel: string;
   badge: string;
-  icon: string;
   accentColor: string;
   description: string;
   sessionIds: Set<string>;
@@ -14,10 +13,9 @@ export interface SpecialTrackInfo {
 export const SPECIAL_TRACKS: Record<SpecialTrackId, SpecialTrackInfo> = {
   linux_lowlevel: {
     id: 'linux_lowlevel',
-    label: '🐧 Linux & Bajo Nivel',
+    label: 'Linux & Bajo Nivel',
     shortLabel: 'Linux / Kernel',
     badge: 'Linux / HW',
-    icon: '🐧',
     accentColor: '#14A57F',
     description: 'Kernel, syscalls, UEFI, reversing, hardware hacking y firmware.',
     sessionIds: new Set([
@@ -40,10 +38,9 @@ export const SPECIAL_TRACKS: Record<SpecialTrackId, SpecialTrackInfo> = {
   },
   redteam_exploit: {
     id: 'redteam_exploit',
-    label: '🎯 Red Team & Exploits',
+    label: 'Red Team & Exploits',
     shortLabel: 'Red Team',
     badge: 'Red Team',
-    icon: '🎯',
     accentColor: '#F2542D',
     description: 'Exploit writing, weaponization, EDR bypass, Active Directory y ofensiva.',
     sessionIds: new Set([
@@ -69,10 +66,9 @@ export const SPECIAL_TRACKS: Record<SpecialTrackId, SpecialTrackInfo> = {
   },
   devsecops_cloud: {
     id: 'devsecops_cloud',
-    label: '🛡️ DevSecOps & Cloud',
+    label: 'DevSecOps & Cloud',
     shortLabel: 'DevSecOps',
     badge: 'DevSecOps',
-    icon: '🛡️',
     accentColor: '#2F80F5',
     description: 'CI/CD pipelines, AppSec SDLC, AWS, Zero Trust y defensa cloud.',
     sessionIds: new Set([

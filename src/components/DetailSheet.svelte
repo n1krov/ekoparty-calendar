@@ -154,7 +154,7 @@
           <dt>Foco</dt>
           <dd>
             {#each getSessionSpecialTracks(activeSession.id) as st}
-              <span class={`track-inline-badge track-${st.id}`}>{st.icon} {st.label}</span>
+              <span class={`track-inline-badge track-${st.id}`}>{st.label}</span>
             {/each}
           </dd>
         {/if}

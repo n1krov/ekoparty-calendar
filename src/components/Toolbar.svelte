@@ -122,7 +122,6 @@
               on:click={() => toggleSpecialTrack(track.id)}
               title={track.description}
             >
-              <span>{track.icon}</span>
               {track.label}
             </button>
           {/each}
