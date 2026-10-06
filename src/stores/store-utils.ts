@@ -35,39 +35,46 @@ export function writable<T>(initialValue: T): Writable<T> {
   };
 }
 
-export function derived<S, T>(
-  store: Readable<S>,
-  fn: (value: S) => T
-): Readable<T> {
-  return {
-    subscribe(run: (value: T) => void): () => void {
-      return store.subscribe((storeVal) => {
-        run(fn(storeVal));
-      });
-    },
-  };
-}
+export type Stores = Readable<any> | [Readable<any>, ...Array<Readable<any>>] | Array<Readable<any>>;
 
-export function derivedMulti<T>(
-  stores: Readable<unknown>[],
-  fn: (values: unknown[]) => T
+export type StoresValues<T> = T extends Readable<infer U>
+  ? U
+  : { [K in keyof T]: T[K] extends Readable<infer U> ? U : never };
+
+export function derived<S, T>(
+  stores: S,
+  fn: (values: StoresValues<S>) => T
 ): Readable<T> {
+  const isArray = Array.isArray(stores);
+  const storeArray: Readable<any>[] = isArray
+    ? (stores as unknown as Readable<any>[])
+    : [stores as unknown as Readable<any>];
+
   return {
     subscribe(run: (value: T) => void): () => void {
-      const values: unknown[] = new Array(stores.length);
-      let initialized = 0;
-      const unsubs = stores.map((s, idx) =>
+      const values: any[] = new Array(storeArray.length);
+      let started = false;
+
+      const sync = () => {
+        if (!started) return;
+        const res = isArray ? fn(values as any) : fn(values[0] as any);
+        run(res);
+      };
+
+      const unsubs = storeArray.map((s, idx) =>
         s.subscribe((val) => {
           values[idx] = val;
-          if (initialized < stores.length) initialized++;
-          if (initialized >= stores.length) {
-            run(fn(values));
+          if (started) {
+            sync();
           }
         })
       );
 
+      started = true;
+      sync();
+
       return () => {
-        unsubs.forEach((u) => u());
+        unsubs.forEach((u) => u && u());
       };
     },
   };
