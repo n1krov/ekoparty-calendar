@@ -76,6 +76,7 @@
 
 <p class="count" id="count">{countText}</p>
 
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div
   class="gridwrap"
   tabindex="0"

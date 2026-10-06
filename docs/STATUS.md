@@ -109,3 +109,4 @@
 - Se añadió un `package-lock.json` (lockfileVersion 3) para garantizar compatibilidad total con detectores de paquetes y herramientas de CI.
 - Se creó `svelte.config.js` y se actualizó `vite.config.ts` integrando `vitePreprocess()` para compilar bloques `<script lang="ts">` en los componentes Svelte durante el build.
 - Se eliminaron las aserciones de tipo TypeScript (`as`) de las expresiones en plantillas Svelte (`AgendaView`, `ListView`, `DetailSheet`) y se resolvió la advertencia a11y de `<nav role="tablist">` en `DayTabs`.
+- Se corrigieron errores tipográficos sintácticos en `src/data/raw-sessions.ts` (corchete extra en `{ k: 's'] }` en sesiones EKONONOS y Trust Is The Attack Surface), validando exitosamente la colección de datos con Node, y se agregó svelte-ignore para el tabindex de scroll accesible en `GridView`.

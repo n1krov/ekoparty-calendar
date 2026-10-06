@@ -46,7 +46,7 @@ export const RAW: RawSessionTuple[] = [
   [8, 'C2', '09:45', 45, 'Retrieval Augmented Gaslight', 'Sebastián Passaro', { k: 's', tr: 'OWASP Village LATAM N/A', tg: ['ia'] }],
   [8, 'C2', '10:30', 45, 'When Agents Trust…', '', { tg: ['ia'] }],
   [8, 'C2', '11:15', 45, 'Zero Trust for AI Ops: Securing LLMs, RAG, and Agents', 'Emilio Oropeza', { k: 's', tr: 'AI Resilience', tg: ['ia', 'def'] }],
-  [8, 'C2', '12:00', 60, 'EKONONOS: respect your root', 'Daniel Isler', { k: 's'] }],
+  [8, 'C2', '12:00', 60, 'EKONONOS: respect your root', 'Daniel Isler', { k: 's' }],
   [8, 'C2', '14:00', 45, 'iOS Game Hacking: From Zero to God Mode', 'Luis De la Rosa|Steeven Rodríguez', { k: 's', tg: ['exp'] }],
   [8, 'C2', '14:45', 45, 'AI Driven Development', 'Axel Labruna', { k: 's', tg: ['ia'] }],
   [8, 'C2', '15:30', 50, 'Del CBU a la DeFi: Anatomía de un fraude híbrido y su rastro on-chain', 'Thalía Gaona Vazquez', { k: 's', tr: 'WebtrES Village', tg: ['fin'] }],
@@ -58,7 +58,7 @@ export const RAW: RawSessionTuple[] = [
   [8, 'C3', '14:00', 45, '¿Cuándo vence tu tarjeta de crédito?', 'Santiago Barclay', { k: 'l', tg: ['fin'] }],
   [8, 'C3', '14:45', 45, 'Escapando de una Restricted Shell a los golpes: MIPS, Syscalls y Kernel Panics', 'Matias Ramirez', { k: 's', tg: ['hw', 'exp'] }],
   [8, 'C3', '15:30', 45, 'Resultados de tesis - A7724 y su impacto en el ecosistema financiero', 'Facundo Lisotto', { k: 's', tr: 'CyberFinance Village', tg: ['fin'] }],
-  [8, 'C3', '16:15', 45, 'Trust Is The Attack Surface', 'Matias Choren Ruiz|Fabiana Ramirez Cuenca', { k: 's'] }],
+  [8, 'C3', '16:15', 45, 'Trust Is The Attack Surface', 'Matias Choren Ruiz|Fabiana Ramirez Cuenca', { k: 's' }],
   [8, 'C3', '17:00', 60, 'CRYPT - STEG DIA 2 - SALA "C3" Breaking ECC with Short…', 'Agustin Isoldi|German Bollmann', { k: 's', tr: 'Academy CryptSteg', tg: ['exp'] }],
 
   // VIERNES 9
