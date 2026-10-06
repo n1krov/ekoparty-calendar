@@ -1191,6 +1191,8 @@ h1 em {
   }
 
   .sheet-drag-handle-wrap {
+    all: unset;
+    box-sizing: border-box;
     width: 100%;
     padding: 4px 0 10px;
     display: flex;

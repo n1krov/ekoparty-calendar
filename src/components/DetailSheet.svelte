@@ -86,9 +86,14 @@
       aria-labelledby="sh-title"
       bind:this={panelElement}
     >
-      <div class="sheet-drag-handle-wrap" on:click={closeSheet}>
-        <div class="drag-handle"></div>
-      </div>
+      <button
+        type="button"
+        class="sheet-drag-handle-wrap"
+        aria-label="Cerrar detalle"
+        on:click={closeSheet}
+      >
+        <span class="drag-handle"></span>
+      </button>
 
       <div class={`ph r-${activeSession.room}`}>
         <span class="dot">{ROOMS[activeSession.room].c}</span>

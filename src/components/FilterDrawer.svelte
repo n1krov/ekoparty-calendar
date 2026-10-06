@@ -79,9 +79,14 @@
       aria-modal="true"
       aria-labelledby="drawer-title"
     >
-      <div class="drag-handle-wrap" on:click={closeFilterDrawer}>
-        <div class="drag-handle"></div>
-      </div>
+      <button
+        type="button"
+        class="drag-handle-wrap"
+        aria-label="Cerrar panel de filtros"
+        on:click={closeFilterDrawer}
+      >
+        <span class="drag-handle"></span>
+      </button>
 
       <div class="drawer-header">
         <h2 id="drawer-title" class="drawer-title">

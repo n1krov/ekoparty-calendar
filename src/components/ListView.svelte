@@ -126,6 +126,7 @@
             ]
               .filter(Boolean)
               .join(' · ')}
+            {@const specialTracks = getSessionSpecialTracks(s.id)}
             <article class={`item r-${s.room}${isFav ? ' fav' : ''}`} data-card={s.id}>
               <span class="dot">{ROOMS[s.room].c}</span>
               <div>
@@ -143,7 +144,6 @@
                   <p class="who">{s.who.join(' · ')}</p>
                 {/if}
                 <p class="meta">{metaString}</p>
-                {@const specialTracks = getSessionSpecialTracks(s.id)}
                 {#if s.tags.length || specialTracks.length}
                   <ul class="tp">
                     {#each specialTracks as st}
