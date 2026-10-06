@@ -1,0 +1,624 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ekoparty 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a transit-style timetable. Time runs down the page, rooms run across as colored lines.
+   Maintrack is the only solid block; every other room is a tint of its own color. */
+:root{
+  --bg:#ECEFF3; --surface:#FFFFFF; --surface-2:#DFE5EB; --ink:#0D1520; --ink-2:#47566A; --line:#C9D1DA;
+  --coral:#F2542D; --coral-ink:#B93513; --on-lane:#0D1520;
+  --c-d:#14A57F; --c-d-ink:#0A6A51;
+  --c-c1:#2F80F5; --c-c1-ink:#1B54B5;
+  --c-c2:#F0A800; --c-c2-ink:#7F5800;
+  --c-c3:#B655DD; --c-c3-ink:#772A9E;
+  --f-display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --f-body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1017; --surface:#111A24; --surface-2:#1A2633; --ink:#E8EEF4; --ink-2:#9BAABA; --line:#243242;
+    --coral:#FF6A45; --coral-ink:#FF8E70;
+    --c-d:#2FD1A3; --c-d-ink:#5BE3BB; --c-c1:#5AA2FF; --c-c1-ink:#8DBEFF;
+    --c-c2:#FFC233; --c-c2-ink:#FFD468; --c-c3:#CC7DF0; --c-c3-ink:#DEA4F7;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1017; --surface:#111A24; --surface-2:#1A2633; --ink:#E8EEF4; --ink-2:#9BAABA; --line:#243242;
+  --coral:#FF6A45; --coral-ink:#FF8E70;
+  --c-d:#2FD1A3; --c-d-ink:#5BE3BB; --c-c1:#5AA2FF; --c-c1-ink:#8DBEFF;
+  --c-c2:#FFC233; --c-c2-ink:#FFD468; --c-c3:#CC7DF0; --c-c3-ink:#DEA4F7;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.45 var(--f-body)}
+button{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,3vw,36px);padding-block:30px 60px}
+
+/* room colors: each room sets --lane (fill) and --lane-ink (text-safe) */
+.r-M{--lane:var(--coral);--lane-ink:var(--coral-ink)}
+.r-D{--lane:var(--c-d);--lane-ink:var(--c-d-ink)}
+.r-C1{--lane:var(--c-c1);--lane-ink:var(--c-c1-ink)}
+.r-C2{--lane:var(--c-c2);--lane-ink:var(--c-c2-ink)}
+.r-C3{--lane:var(--c-c3);--lane-ink:var(--c-c3-ink)}
+.dot{display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 6px;border-radius:11px;background:var(--lane,var(--ink));color:var(--on-lane);font:600 10.5px/1 var(--f-mono);flex:none}
+
+/* hero */
+.kick{margin:0 0 14px;font:500 12px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.hero{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 40px}
+h1{margin:0;font:900 clamp(68px,14vw,168px)/.8 var(--f-display);text-transform:uppercase;letter-spacing:-.005em}
+h1 em{font-style:normal;color:var(--coral)}
+.stats{display:flex;gap:28px;margin:0;padding-bottom:4px}
+.stats div{display:flex;flex-direction:column}
+.stats dt{order:2;font:500 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.stats dd{margin:0;font:800 clamp(34px,5vw,54px)/1 var(--f-display)}
+
+/* day tabs */
+.days{display:flex;gap:10px;margin-top:28px}
+.day{flex:1 1 0;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"n w" "m m" "mini mini";align-items:end;gap:2px 10px;text-align:left;padding:12px 14px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;cursor:pointer;color:var(--ink)}
+.day:hover{border-color:var(--ink)}
+.day[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dn{grid-area:n;font:900 clamp(46px,7vw,84px)/.85 var(--f-display)}
+.dw{grid-area:w;align-self:start;padding-top:4px;font:700 clamp(15px,2vw,22px)/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.04em}
+.dw small{display:block;font:500 11px var(--f-mono);letter-spacing:.08em;opacity:.7}
+.ws{display:none}
+.dm{grid-area:m;margin-top:8px;font:500 11.5px var(--f-mono);opacity:.85}
+.mini{grid-area:mini;position:relative;display:block;height:36px;margin-top:8px}
+.mini i{position:absolute;height:5px;border-radius:2px;background:var(--lane)}
+.day.all{flex:0 0 auto;min-width:96px;grid-template-columns:auto;grid-template-areas:"w" "m";align-content:end}
+.day.all .dw{font-size:26px}
+
+.note{margin:16px 0 0;padding:10px 14px;border:1px dashed var(--line);border-radius:8px;color:var(--ink-2);font-size:13px}
+.note a{color:var(--ink);font-weight:600}
+
+/* toolbar */
+.toolbar{display:grid;gap:14px;margin-top:22px}
+.row{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.seg{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.seg button{border:0;background:transparent;color:var(--ink-2);padding:7px 15px;border-radius:999px;font:600 13px var(--f-body);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.n{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:6px;border-radius:9px;background:var(--ink);color:var(--bg);font:600 10.5px var(--f-mono)}
+.seg [aria-pressed="true"] .n{background:var(--bg);color:var(--ink)}
+.search{flex:1 1 240px;min-width:0}
+.search input{width:100%;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:400 14px var(--f-body)}
+.search input::placeholder{color:var(--ink-2)}
+.lbl{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:500 13px/1.1 var(--f-body);cursor:pointer}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.clear{border-style:dashed;color:var(--ink-2)}
+.fgroup{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.count{margin:16px 2px 0;font:500 12px/1.5 var(--f-mono);color:var(--ink-2)}
+
+/* grid view */
+.gridwrap{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:auto;max-height:780px}
+.tt{display:grid;grid-template-columns:54px repeat(var(--n),minmax(210px,1fr));width:max(100%,calc(54px + var(--n) * 210px))}
+.hc{position:sticky;top:0;z-index:6;display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface);border-bottom:1px solid var(--line);border-left:1px solid var(--line);font:700 15px var(--f-body)}
+.hc.corner{left:0;z-index:8;border-left:0}
+.rc{margin-left:auto;font:500 11px var(--f-mono);color:var(--ink-2)}
+.gut{position:sticky;left:0;z-index:4;height:var(--H);background:var(--surface)}
+.gut span{position:absolute;right:8px;transform:translateY(-50%);font:500 11px var(--f-mono);color:var(--ink-2)}
+.lane{position:relative;height:var(--H);border-left:1px solid var(--line);
+  background-image:linear-gradient(to bottom,var(--line) 1px,transparent 1px),linear-gradient(to bottom,color-mix(in srgb,var(--line) 45%,transparent) 1px,transparent 1px);
+  background-size:100% var(--hr),100% var(--hh);background-position:0 var(--off),0 var(--off)}
+.blk{position:absolute;left:5px;right:5px;height:var(--h);display:flex;flex-direction:column;gap:3px;padding:6px 9px 5px;overflow:hidden;border-radius:7px;
+  background:color-mix(in srgb,var(--lane) 15%,var(--surface));border:1px solid color-mix(in srgb,var(--lane) 55%,transparent);color:var(--ink);transition:opacity .15s}
+.blk:hover,.blk:focus-within{height:auto;min-height:var(--h);z-index:5;overflow:visible}
+.blk.r-M{background:var(--coral);border-color:var(--coral);color:var(--on-lane)}
+.blk.dim{opacity:.2}
+.blk.dim:hover,.blk.dim:focus-within{opacity:.95}
+.blk.fav,.item.fav{box-shadow:0 0 0 2px var(--ink)}
+.t{display:flex;align-items:center;gap:6px;font:500 11px/1 var(--f-mono);color:var(--lane-ink);min-height:22px}
+.blk.r-M .t,.blk.r-M .star{color:var(--on-lane)}
+.tag{padding:2px 4px;border:1px solid currentColor;border-radius:3px;font:500 9.5px/1 var(--f-mono);letter-spacing:.04em;opacity:.85}
+.blk h3,.item h3{margin:0;font:600 13px/1.25 var(--f-body)}
+.who{margin:0;font-size:11.5px;line-height:1.3;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blk.r-M .who{color:color-mix(in srgb,var(--on-lane) 80%,transparent)}
+.open{all:unset;display:block;cursor:pointer}
+.open::after{content:"";position:absolute;inset:0}
+.open:focus-visible::after{outline:2px solid var(--ink);outline-offset:-2px;border-radius:7px}
+.star{all:unset;box-sizing:border-box;position:relative;z-index:2;width:22px;height:22px;display:grid;place-items:center;margin-left:auto;border-radius:6px;cursor:pointer;color:var(--lane-ink)}
+.star svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
+.star[aria-pressed="true"] svg{fill:currentColor}
+.star:hover{background:color-mix(in srgb,currentColor 16%,transparent)}
+.star:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+
+/* list + agenda */
+.dh{margin:34px 0 4px;font:800 clamp(30px,5vw,44px)/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.dh span{color:var(--coral)}
+.slot{display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px 14px;padding:14px 0;border-top:1px solid var(--line)}
+.tm{font:800 30px/1 var(--f-display);letter-spacing:.01em}
+.items{display:grid;gap:8px;min-width:0}
+.item{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;padding:11px 12px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.item .dot{margin-top:1px}
+.item h3{font-size:15px}
+.item .who{white-space:normal;font-size:13px;margin-top:2px}
+.meta{margin:4px 0 0;font:500 11.5px/1.5 var(--f-mono);color:var(--ink-2)}
+.tp{display:flex;flex-wrap:wrap;gap:4px 6px;margin:7px 0 0;padding:0;list-style:none}
+.tp li{padding:2px 8px;border:1px solid var(--line);border-radius:999px;font-size:11.5px;color:var(--ink-2)}
+.item .star{color:var(--ink)}
+.warn{margin:8px 0 0;font-size:12.5px}
+.pill{display:inline-block;margin-right:6px;padding:2px 8px;border-radius:999px;background:var(--ink);color:var(--bg);font:600 10.5px/1.4 var(--f-mono);letter-spacing:.05em;text-transform:uppercase}
+.aghead{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-top:10px}
+.aghead p{margin:0;font:500 13px var(--f-mono);color:var(--ink-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--bg);font:600 13.5px var(--f-body);cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn[aria-pressed="true"]{background:transparent;color:var(--ink)}
+#agtxt{width:100%;min-height:150px;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:400 12.5px/1.5 var(--f-mono)}
+.empty{margin-top:14px;padding:36px 20px;border:1px dashed var(--line);border-radius:12px;text-align:center;color:var(--ink-2)}
+.empty .et{margin:0 0 6px;font:800 28px/1 var(--f-display);text-transform:uppercase;color:var(--ink)}
+.empty p{margin:0 0 14px}
+
+/* detail sheet */
+.scrim{position:fixed;inset:0;z-index:50;display:flex;justify-content:flex-end;background:color-mix(in srgb,#05080C 55%,transparent)}
+.panel{width:min(470px,100%);overflow:auto;display:flex;flex-direction:column;gap:14px;padding:22px 22px calc(24px + env(safe-area-inset-bottom,0px));background:var(--surface);color:var(--ink);border-left:1px solid var(--line)}
+.ph{display:flex;align-items:center;gap:10px}
+.pr{font:700 15px var(--f-body)}
+.x{all:unset;box-sizing:border-box;margin-left:auto;width:32px;height:32px;display:grid;place-items:center;border-radius:8px;cursor:pointer}
+.x:hover{background:var(--surface-2)}
+.x:focus-visible{outline:2px solid var(--ink)}
+.x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
+.pt{margin:0;font:500 12.5px var(--f-mono);color:var(--ink-2)}
+.panel h2{margin:0;font:700 24px/1.2 var(--f-body);text-wrap:balance}
+.panel dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;margin:0}
+.panel dt{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);padding-top:3px}
+.panel dd{margin:0}
+.cutn{margin:0;padding:10px 12px;border:1px dashed var(--line);border-radius:8px;font-size:13px;color:var(--ink-2)}
+.pa{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:4px}
+.lnk{font-size:13.5px;font-weight:600}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:80;max-width:calc(100% - 32px);padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font:600 13px var(--f-body)}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-2)}
+.foot a{font-weight:600;color:var(--ink)}
+
+@media (max-width:700px){
+  .wf{display:none}.ws{display:inline}
+  .dm .rng{display:none}
+  .day{padding:10px 10px 12px}
+  .day.all{min-width:70px}
+  .slot{grid-template-columns:54px minmax(0,1fr);gap:6px 10px}
+  .tm{font-size:24px}
+  .scrim{align-items:flex-end}
+  .panel{width:100%;max-height:88%;border-left:0;border-top:1px solid var(--line);border-radius:16px 16px 0 0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div class="wrap">
+  <header>
+    <p class="kick">Agenda · 7 al 9 de octubre de 2026</p>
+    <div class="hero">
+      <h1>Ekoparty <em>2026</em></h1>
+      <dl class="stats">
+        <div><dd id="st-s">0</dd><dt>sesiones</dt></div>
+        <div><dd>5</dd><dt>salas</dt></div>
+        <div><dd>3</dd><dt>días</dt></div>
+      </dl>
+    </div>
+  </header>
+
+  <nav class="days" id="days" role="tablist" aria-label="Día"></nav>
+
+  <p class="note" id="note"></p>
+
+  <section class="toolbar" aria-label="Vista y filtros">
+    <div class="row">
+      <div class="seg" role="group" aria-label="Vista">
+        <button type="button" data-view="grid" aria-pressed="true">Grilla</button>
+        <button type="button" data-view="list" aria-pressed="false">Lista</button>
+        <button type="button" data-view="agenda" aria-pressed="false">Mi agenda<span class="n" id="agn">0</span></button>
+      </div>
+      <div class="search">
+        <label class="sr" for="q">Buscar charla, orador o tema</label>
+        <input id="q" type="search" placeholder="Buscar charla, orador, sala o tema" autocomplete="off">
+      </div>
+    </div>
+    <div id="filters" class="toolbar" style="margin-top:0">
+      <div class="fgroup"><span class="lbl">Sala</span><div class="chips" id="rooms"></div></div>
+      <div class="fgroup"><span class="lbl">Tema</span><div class="chips" id="topics"></div></div>
+      <div class="fgroup">
+        <button type="button" class="chip" data-act="es" aria-pressed="false">Solo en español</button>
+        <button type="button" class="chip clear" data-act="clear" id="clear" hidden>Limpiar filtros</button>
+      </div>
+    </div>
+  </section>
+
+  <p class="count" id="count"></p>
+  <main id="out"></main>
+
+  <footer class="foot" id="foot"></footer>
+</div>
+
+<div class="scrim" id="sheet" hidden>
+  <div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="sh-title"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function(){'use strict';
+const RAW=[
+// MIÉRCOLES 7
+[7,`M`,`09:10`,15,`Bienvenida`,`Leo Pigñer`,{k:`w`}],
+[7,`M`,`09:25`,50,`LATAM-as-a-Service: How Latin American cybercrime industrialized Everything-as-a-Service`,`Anton Dolgalev`,{k:`s`,tg:[`cti`]}],
+[7,`M`,`10:05`,50,`Zero-Knowledge cracking of a 1983 Apple II Hardware Copy Protection`,`Inbar Raz`,{k:`s`,tg:[`hw`,`exp`]}],
+[7,`M`,`10:55`,50,`MSIX'd Up: Weaponizing the Modern Windows App Packaging Ecosystem`,`Nick Powers`,{k:`s`,tg:[`exp`]}],
+[7,`M`,`11:45`,40,`Nobody puts baby in a corner`,`Sammy Azdoufal`,{k:`l`}],
+[7,`M`,`14:40`,50,`¡Atrápalos Ya! How To Capture 3.5 Billion WhatsApp Accounts`,`Gabriel Gegenhuber|Max Guenther|Philipp Frenzel`,{k:`s`,tg:[`exp`,`id`]}],
+[7,`M`,`15:30`,50,`Prompt Critical: AI-driven Weaponization of a UniFi OS RCE Chain`,``,{tg:[`ia`,`exp`]}],
+[7,`M`,`16:20`,50,`Dead.Letter y el exploit writing moderno`,`Andrés Luksenberg`,{k:`s`,tg:[`exp`]}],
+[7,`M`,`17:10`,50,`Every ride you take - Hacking a City’s Public Transportation`,`Ignacio Navarro`,{k:`s`,tg:[`hw`,`exp`]}],
+[7,`D`,`09:45`,45,`From Tickets to Tokens: Weaponizing the Hybrid Identity Boundary with SATO`,`Edrian Miranda`,{k:`s`,es:1,tg:[`id`,`exp`]}],
+[7,`D`,`12:00`,60,`“Hey Red Teamer, I’ve Got a Human EDR…`,``,{tg:[`exp`]}],
+[7,`D`,`16:15`,45,`The Old-School RoadMap (Argentina, USA, Europe)`,`Thonhy`,{k:`s`,es:1,tg:[`soc`]}],
+[7,`D`,`17:00`,30,`Web distribuida y archivo comunitario`,`Agus Las Peñas`,{k:`s`,es:1,tr:`Peer2Peer Ekoparty`,tg:[`soc`]}],
+[7,`D`,`17:30`,30,`IDENTIDAD DIGITAL: Compartimentar, Minimizar y Securizar tu visibilidad online.`,``,{tr:`Peer2Peer Ekoparty`,tg:[`id`,`soc`]}],
+[7,`C1`,`10:30`,45,`MCP y el problema que nadie está viendo…`,``,{tg:[`ia`]}],
+[7,`C1`,`11:15`,45,`Trust Me, I'm Your Boss`,`Luis Garay`,{k:`s`}],
+[7,`C1`,`12:00`,60,`Trident: Afilando la lanza de la…`,``,{}],
+[7,`C1`,`14:00`,45,`Core bajo ataque: Anatomía del fraude…`,``,{tg:[`fin`]}],
+[7,`C1`,`14:45`,45,`Identidades Gobernarlas o Caer`,`Lucciano Campassi`,{k:`s`,tg:[`id`]}],
+[7,`C1`,`15:30`,45,`De Honeypot a Pipeline de Detección: integrando Zeek y Machine…`,``,{tg:[`def`,`ia`]}],
+[7,`C1`,`16:15`,45,`Stranger Tactics Stranger Techniques Stranger Things by Threat Actors`,`Erivan Morales`,{k:`s`,tg:[`cti`]}],
+[7,`C1`,`17:00`,60,`Grupo Lazarus: Anatomía del cibercrimen organizado`,`Carlos A. Agrelo`,{k:`s`,tg:[`cti`]}],
+[7,`C2`,`09:45`,45,`Necesitamos a Sarah Connor (o al menos un protocolo) Cada prompt tiene consecuencias.`,`Matias Choren Ruiz|Ivan Gawek`,{k:`s`,tg:[`ia`]}],
+[7,`C2`,`10:30`,45,`PCI-DSS real en arquitecturas AWS: Cumplir…`,``,{tg:[`def`,`fin`]}],
+[7,`C2`,`11:15`,45,`Quantum Gadgets: Finding Optimal ROP Chains on Real Quantum Computer Hardware`,`Carlos Benitez`,{k:`s`,tg:[`exp`,`hw`]}],
+[7,`C2`,`14:00`,45,`Hackers, reguladores y ejecutivos: sobrevivir…`,``,{tg:[`def`]}],
+[7,`C2`,`14:45`,45,`Autenticidad vs. deepfake: ¿quién valida qué es real?`,`Leonardo Fragola|Fred Montezuma`,{k:`s`,tr:`CyberFinance Village`,tg:[`fin`,`id`]}],
+[7,`C2`,`17:00`,60,`Bypassing KYC SDKs in the AI Era`,`Juan Martinez Blanco|Juan Urbano Stordeur`,{k:`s`,tg:[`fin`,`id`,`ia`]}],
+// JUEVES 8
+[8,`M`,`10:00`,50,`Hacking in the age of AI after Mythos, Fable, Sol and Astra.`,`Chema Alonso`,{es:1,tg:[`ia`]}],
+[8,`M`,`10:50`,50,`Patriot Bait: How One Man and an AI Agent Ran a Five-Year Influence Operation and a Six-Minute Botnet`,`Lucas Silva`,{k:`s`,tg:[`ia`,`cti`]}],
+[8,`M`,`11:40`,30,`VU#226679: rompiendo contraseñas UEFI mediante WinRE`,`Beatriz Fresno Naumova`,{k:`l`,tg:[`hw`,`exp`]}],
+[8,`M`,`12:10`,50,`Reversing el DRM de Netflix: anatomía de Widevine L1 en Windows`,`Jeremy Erazo`,{k:`s`,tg:[`hw`]}],
+[8,`M`,`14:40`,50,`Breaking the Warehouse: From Bluetooth Devices to Operational Control`,`Sergey Sidorov|Haidar Kabibo`,{k:`s`,tg:[`hw`,`exp`]}],
+[8,`M`,`15:30`,50,`It's a me! DOOM! A Homebrew Entry Point for LEGO Super Mario`,`Kevin Aguilar (A.K.A. cabr4)`,{k:`s`,tg:[`hw`]}],
+[8,`M`,`16:20`,50,`Hardware in the loop: reverseando el link de un headset de VR`,`Matias Sebastian Soler`,{k:`s`,tg:[`hw`]}],
+[8,`M`,`17:10`,50,`Hacking the KIA Real Time Operative System`,`Danilo Erazo`,{k:`s`,tg:[`hw`]}],
+[8,`D`,`14:00`,180,`CTF de Ingeniería Social`,``,{k:`c`,tg:[`soc`]}],
+[8,`C1`,`09:45`,45,`Hackeando las Herramientas del Agente: Pentesting de Servidores MCP en el Mundo Real`,`Luis Diego Raga`,{k:`s`,tg:[`ia`,`exp`]}],
+[8,`C1`,`17:00`,30,`N-days Weaponizer with a Multi-Agent AI Pipeline`,`Andrea Brosio`,{k:`s`,tg:[`ia`,`exp`]}],
+[8,`C2`,`09:45`,45,`Retrieval Augmented Gaslight`,`Sebastián Passaro`,{k:`s`,tr:`OWASP Village LATAM N/A`,tg:[`ia`]}],
+[8,`C2`,`10:30`,45,`When Agents Trust…`,``,{tg:[`ia`]}],
+[8,`C2`,`11:15`,45,`Zero Trust for AI Ops: Securing LLMs, RAG, and Agents`,`Emilio Oropeza`,{k:`s`,tr:`AI Resilience`,tg:[`ia`,`def`]}],
+[8,`C2`,`12:00`,60,`EKONONOS: respect your root`,`Daniel Isler`,{k:`s`}],
+[8,`C2`,`14:00`,45,`iOS Game Hacking: From Zero to God Mode`,`Luis De la Rosa|Steeven Rodríguez`,{k:`s`,tg:[`exp`]}],
+[8,`C2`,`14:45`,45,`AI Driven Development`,`Axel Labruna`,{k:`s`,tg:[`ia`]}],
+[8,`C2`,`15:30`,50,`Del CBU a la DeFi: Anatomía de un fraude híbrido y su rastro on-chain`,`Thalía Gaona Vazquez`,{k:`s`,tr:`WebtrES Village`,tg:[`fin`]}],
+[8,`C2`,`16:15`,45,`Gobierno del uso de IA en la Nube`,``,{k:`s`,tr:`Cloud Security Space`,tg:[`ia`,`def`]}],
+[8,`C3`,`09:45`,45,`DarkCloud Around the World: From Pixels to Credentials`,`Isabel Manjarrez`,{k:`s`,tg:[`cti`]}],
+[8,`C3`,`10:30`,45,`One Does Not Simply…`,``,{}],
+[8,`C3`,`11:15`,45,`MATCHBOIL bajo la lupa: Un caso de atribución basada en la comparación y análisis de código`,`Fernando Tavella`,{k:`s`,tg:[`cti`]}],
+[8,`C3`,`12:00`,60,`Un agente de IA para triage que aprendió a decir "no sé"`,`Matias Federico Manassero`,{k:`s`,tg:[`ia`,`def`]}],
+[8,`C3`,`14:00`,45,`¿Cuándo vence tu tarjeta de crédito?`,`Santiago Barclay`,{k:`l`,tg:[`fin`]}],
+[8,`C3`,`14:45`,45,`Escapando de una Restricted Shell a los golpes: MIPS, Syscalls y Kernel Panics`,`Matias Ramirez`,{k:`s`,tg:[`hw`,`exp`]}],
+[8,`C3`,`15:30`,45,`Resultados de tesis - A7724 y su impacto en el ecosistema financiero`,`Facundo Lisotto`,{k:`s`,tr:`CyberFinance Village`,tg:[`fin`]}],
+[8,`C3`,`16:15`,45,`Trust Is The Attack Surface`,`Matias Choren Ruiz|Fabiana Ramirez Cuenca`,{k:`s`}],
+[8,`C3`,`17:00`,60,`CRYPT - STEG DIA 2 - SALA "C3" Breaking ECC with Short…`,`Agustin Isoldi|German Bollmann`,{k:`s`,tr:`Academy CryptSteg`,tg:[`exp`]}],
+// VIERNES 9
+[9,`M`,`09:00`,50,`Un Palantir para gobernarlos…`,``,{}],
+[9,`M`,`09:50`,30,`Contactless Under Attack: PIN Bypass, EMV and Apple Pay`,`Davi (Penegui) Mikael`,{k:`l`,tg:[`fin`,`hw`]}],
+[9,`M`,`10:20`,50,`Living Off Trusted Cloud: Provider Infrastructure as Phishing Delivery Channel`,`Rahul Vashisht`,{k:`s`,tg:[`exp`]}],
+[9,`M`,`11:10`,50,`PleaseFix: Cómo navegadores con agentes de IA están deshaciendo décadas de ingeniería de seguridad`,`Inbar Raz`,{k:`s`,tg:[`ia`]}],
+[9,`M`,`12:00`,50,`A Practical Approach to Post-Quantum Readiness at Scale!`,`Sheila Berta`,{k:`s`,tg:[`def`]}],
+[9,`M`,`12:50`,30,`HTTP2Crash and the Cicada Problem`,`Houston Hunt`,{k:`l`,tg:[`exp`]}],
+[9,`M`,`14:40`,50,`The Glass Perimeter - Systematic Bypasses in Biometric Frameworks and the Rise of Synthetic Identity`,`Dan Borgogno|Javier Bernardo`,{k:`s`,tg:[`id`,`exp`]}],
+[9,`M`,`15:30`,50,`Root From Kilometers Away: Ubiquiti…`,``,{tg:[`hw`,`exp`]}],
+[9,`D`,`09:00`,45,`Logs Under Fire`,`Valentin Torassa Colombero`,{k:`s`,es:1,tg:[`def`]}],
+[9,`D`,`09:45`,45,`Tecnorrepublicanismo: la ontología como campo de batalla de la soberanía digital`,`Valentina Costa Gazcón`,{k:`s`,es:1,tg:[`soc`]}],
+[9,`D`,`10:30`,45,`Loading ClickFix.exe: please paste to continue`,`Maria Sol Gonzalez`,{k:`s`,es:1,tg:[`cti`]}],
+[9,`D`,`11:15`,45,`No Seat, No Shield: Gobernanza de Internet y la Infancia Olvidada`,`Florencia Vilardel`,{k:`s`,es:1,tg:[`soc`]}],
+[9,`D`,`12:00`,60,`La Nueva Ciberguerra No Lineal: De la Defensa Perimetral a la Inteligencia de Comportamiento`,`Mario Lobo Romero`,{k:`s`,es:1,tg:[`def`,`cti`]}],
+[9,`D`,`14:00`,45,`XSS Weaponization: Advanced Techniques for Browser Exploitation on Red Team Operation`,`Jessica Rampin`,{k:`s`,es:1,tr:`OWASP Village LATAM N/A`,tg:[`exp`]}],
+[9,`D`,`14:45`,45,`Firmware Analysis 101: Lo que debes saber antes y después de abrir un binario`,`Mario Sebastián Micucci`,{k:`s`,es:1,tg:[`hw`]}],
+[9,`C1`,`09:00`,45,`Ethereum: el futuro que estamos…`,``,{}],
+[9,`C1`,`09:45`,45,`Prompt injection en agentes con tools: permisos, aislamiento y auditoría`,`Valentín Torassa Colombero`,{k:`l`,tr:`AI Resilience`,tg:[`ia`,`def`]}],
+[9,`C1`,`10:30`,45,`Rediseñando la seguridad: IA y la nueva frontera del fraude bancario`,``,{k:`s`,es:1,tr:`CyberFinance Village`,tg:[`fin`,`ia`]}],
+[9,`C1`,`11:15`,45,`Brainsomware | CVE-0000-HUM4N La vulnerabilidad cyber original. Sin parche disponible`,`Hernan Parada`,{k:`s`,es:1,tr:`CyberFinance Village`,tg:[`soc`]}],
+[9,`C1`,`12:00`,60,`Manual de CTI: dato, TTPs y atribución de una APT`,`Carlos Olguin`,{k:`s`,es:1,tr:`CyberFinance Village`,tg:[`cti`]}],
+[9,`C1`,`14:00`,45,`Atacados por nuestro propio trabajo`,`Matias Choren Ruiz|Neda Bertetti`,{k:`s`,es:1}],
+[9,`C1`,`14:45`,45,`Cazar con inteligencia — CTI como motor del Threat Hunting`,``,{k:`s`,es:1,tr:`Cyberintel Village`,tg:[`cti`,`def`]}],
+[9,`C1`,`15:30`,45,`De los datos a la acción: argOS Ciberinteligencia v3 (y…`,``,{tg:[`cti`]}],
+[9,`C2`,`09:00`,45,`Código roto, plata viva: de las buenas prácticas OWASP…`,``,{tg:[`def`]}],
+[9,`C2`,`09:45`,45,`A fondo con IA: DevSecOps en el Gran Premio del A… SDLC`,`Matias Ferreira`,{k:`s`,es:1,tg:[`ia`,`def`]}],
+[9,`C2`,`10:30`,45,`Agentes Ofensivos (Hackbo…`,`Camila Casas`,{k:`s`,es:1,tr:`Bug Bounty Girls Club`,tg:[`ia`,`exp`]}],
+[9,`C2`,`11:15`,45,`Call of Control: From Phone Call to Scooter Takeover`,`Omkar Mali`,{k:`l`,tg:[`exp`,`hw`]}],
+[9,`C2`,`14:00`,45,`Dónde nos equivocamos en el prompt injection`,`Matias Armándola`,{k:`s`,es:1,tr:`AI Resilience`,tg:[`ia`]}],
+[9,`C2`,`14:45`,45,`Explotando la lógica de Active Directory: Una revisión de CVEs críticos`,`Erick Maldonado|Hugo Rodrigo Rivas Galindo`,{k:`l`,tg:[`exp`]}],
+[9,`C2`,`15:30`,45,`Inside the Hardwa… Introducción en CTFs`,`Erick Maldonado|Paola Gerig…`,{tg:[`hw`]}]
+];
+const ROOMS={M:{n:`Maintrack`,c:`M`},D:{n:`Sala D`,c:`D`},C1:{n:`Sala C1`,c:`C1`},C2:{n:`Sala C2`,c:`C2`},C3:{n:`Sala C3`,c:`C3`}};
+const ROOM_ORDER=[`M`,`D`,`C1`,`C2`,`C3`];
+const TOPICS={ia:`IA y agentes`,exp:`Explotación y ofensiva`,hw:`Hardware y reversing`,def:`Defensa y cloud`,id:`Identidad y privacidad`,fin:`Fraude y finanzas`,cti:`Cibercrimen e inteligencia`,soc:`Sociedad y comunidad`};
+const DAYS={7:{w:`Miércoles`,s:`Mié`,d:`7 de octubre`},8:{w:`Jueves`,s:`Jue`,d:`8 de octubre`},9:{w:`Viernes`,s:`Vie`,d:`9 de octubre`}};
+const KINDS={s:`Charla`,l:`Lightning talk`,w:`Apertura`,c:`CTF`};
+const SITE=`https://ekoparty.org/agenda-2026/`;
+const KEY=`ekoparty2026-agenda`;
+const PX=3.4, OFF=14;
+
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':`&amp;`,'<':`&lt;`,'>':`&gt;`,'"':`&quot;`,"'":`&#39;`}[c]));
+const norm=t=>String(t).toLowerCase().normalize(`NFD`).replace(/[̀-ͯ]/g,``);
+const hm=t=>{const p=t.split(`:`);return +p[0]*60+ +p[1]};
+const fmt=m=>String(Math.floor(m/60)).padStart(2,`0`)+`:`+String(m%60).padStart(2,`0`);
+const durTxt=m=>m>=120?(m/60)+` h`:m+` min`;
+const plural=n=>n+(n===1?` sesión`:` sesiones`);
+
+const S=RAW.map(r=>{
+  const o=r[6]||{};
+  const a=hm(r[2]);
+  return {id:r[0]+`-`+r[1]+`-`+r[2].replace(`:`,``),day:r[0],room:r[1],a:a,dur:r[3],b:a+r[3],title:r[4],
+    who:r[5]?r[5].split(`|`):[],kind:o.k||``,es:!!o.es,track:o.tr||``,tags:o.tg||[],cut:r[4].indexOf(`…`)>-1};
+});
+const byId={};S.forEach(s=>{byId[s.id]=s});
+const cmp=(x,y)=>x.day-y.day||x.a-y.a||ROOM_ORDER.indexOf(x.room)-ROOM_ORDER.indexOf(y.room);
+const ov=(x,y)=>x.id!==y.id&&x.day===y.day&&x.a<y.b&&y.a<x.b;
+
+const loadFavs=()=>{try{const v=JSON.parse(localStorage.getItem(KEY)||`[]`);return Array.isArray(v)?v:[]}catch(e){return []}};
+const st={
+  view:window.matchMedia(`(max-width:700px)`).matches?`list`:`grid`,
+  day:7,rooms:new Set(),topics:new Set(),es:false,q:``,
+  favs:new Set(loadFavs().filter(id=>byId[id])),
+  sheet:null,opener:null,fallback:null,key:``
+};
+const saveFavs=()=>{try{localStorage.setItem(KEY,JSON.stringify(Array.from(st.favs)))}catch(e){}};
+
+const filtersActive=()=>st.rooms.size>0||st.topics.size>0||st.es||st.q!==``;
+function match(s){
+  if(st.rooms.size&&!st.rooms.has(s.room))return false;
+  if(st.topics.size&&!s.tags.some(t=>st.topics.has(t)))return false;
+  if(st.es&&!s.es)return false;
+  if(st.q){
+    const h=norm([s.title,s.who.join(` `),s.track,ROOMS[s.room].n,s.tags.map(t=>TOPICS[t]).join(` `)].join(` `));
+    if(h.indexOf(st.q)<0)return false;
+  }
+  return true;
+}
+
+/* ---------- static UI built once ---------- */
+function buildDays(){
+  let h=``;
+  [7,8,9].forEach(d=>{
+    const L=S.filter(s=>s.day===d);
+    const a=Math.min.apply(null,L.map(s=>s.a)), b=Math.max.apply(null,L.map(s=>s.b));
+    const t0=Math.floor(a/60)*60, t1=Math.ceil(b/60)*60, span=t1-t0;
+    const bars=L.map(s=>`<i class="r-${s.room}" style="top:${ROOM_ORDER.indexOf(s.room)*7}px;left:${((s.a-t0)/span*100).toFixed(2)}%;width:calc(${(s.dur/span*100).toFixed(2)}% - 1.5px)"></i>`).join(``);
+    h+=`<button type="button" class="day" role="tab" data-day="${d}" aria-selected="false"><span class="dn">0${d}</span><span class="dw"><span class="wf">${DAYS[d].w}</span><span class="ws">${DAYS[d].s}</span><small>octubre</small></span><span class="dm"><span>${plural(L.length)}</span><span class="rng"> · ${fmt(a)}–${fmt(b)}</span></span><span class="mini" aria-hidden="true">${bars}</span></button>`;
+  });
+  h+=`<button type="button" class="day all" role="tab" data-day="all" aria-selected="false" hidden><span class="dw"><span class="wf">Todos</span><span class="ws">Todos</span><small>los días</small></span><span class="dm">${S.length}</span></button>`;
+  $(`#days`).innerHTML=h;
+}
+function buildFilters(){
+  $(`#rooms`).innerHTML=ROOM_ORDER.map(r=>`<button type="button" class="chip" data-room="${r}" aria-pressed="false"><span class="dot r-${r}">${ROOMS[r].c}</span>${ROOMS[r].n}</button>`).join(``);
+  $(`#topics`).innerHTML=Object.keys(TOPICS).map(t=>`<button type="button" class="chip" data-topic="${t}" aria-pressed="false">${TOPICS[t]}</button>`).join(``);
+  const cut=S.filter(s=>s.cut).length;
+  $(`#note`).innerHTML=`Datos tomados de una impresión de <a href="${SITE}" target="_blank" rel="noopener">ekoparty.org/agenda-2026</a> del 5/10/2026. En ${cut} sesiones el título aparece cortado (marcadas con …), varias no mostraban orador, y el viernes puede haber más salas a la derecha de Sala C2. Confirmá horarios y detalles en el sitio.`;
+  $(`#foot`).innerHTML=`Los temas son una clasificación propia a partir de los títulos. Fuente oficial y cambios de último momento: <a href="${SITE}" target="_blank" rel="noopener">ekoparty.org/agenda-2026</a>.`;
+  $(`#st-s`).textContent=S.length;
+}
+function syncUI(){
+  $$(`[data-day]`).forEach(b=>b.setAttribute(`aria-selected`,String(st.day)===b.dataset.day));
+  $(`[data-day="all"]`).hidden=st.view===`grid`;
+  $$(`[data-view]`).forEach(b=>b.setAttribute(`aria-pressed`,st.view===b.dataset.view));
+  $$(`[data-room]`).forEach(b=>b.setAttribute(`aria-pressed`,st.rooms.has(b.dataset.room)));
+  $$(`[data-topic]`).forEach(b=>b.setAttribute(`aria-pressed`,st.topics.has(b.dataset.topic)));
+  $(`[data-act="es"]`).setAttribute(`aria-pressed`,st.es);
+  $(`#clear`).hidden=!filtersActive();
+  $(`#filters`).hidden=st.view===`agenda`;
+  $(`#agn`).textContent=st.favs.size;
+}
+
+/* ---------- fragments ---------- */
+const STAR=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1L3.2 9.6l6.1-.8z" stroke-linejoin="round"/></svg>`;
+function starBtn(s){
+  const on=st.favs.has(s.id), l=on?`Quitar de mi agenda`:`Agregar a mi agenda`;
+  return `<button type="button" class="star" data-fav="${s.id}" aria-pressed="${on}" aria-label="${l}" title="${l}">${STAR}</button>`;
+}
+const empty=(t,p,btn)=>`<div class="empty"><p class="et">${t}</p><p>${p}</p>${btn||``}</div>`;
+const clearBtn=`<button type="button" class="btn" data-act="clear">Limpiar filtros</button>`;
+
+function blockHTML(s,t0){
+  const h=Math.max(s.dur*PX-4,64), top=OFF+(s.a-t0)*PX;
+  const on=st.favs.has(s.id), dim=!match(s);
+  const tags=(s.es?`<span class="tag" title="Español">ES</span>`:``)+(s.kind===`l`?`<span class="tag" title="Lightning talk">LT</span>`:``);
+  return `<article class="blk r-${s.room}${on?` fav`:``}${dim?` dim`:``}" data-card="${s.id}" style="top:${top}px;--h:${h}px">`+
+    `<div class="t"><span>${fmt(s.a)}–${fmt(s.b)}</span>${tags}${starBtn(s)}</div>`+
+    `<h3><button type="button" class="open" data-open="${s.id}">${esc(s.title)}</button></h3>`+
+    (s.who.length?`<p class="who">${esc(s.who.join(` · `))}</p>`:``)+`</article>`;
+}
+function itemHTML(s,extra){
+  const on=st.favs.has(s.id);
+  const meta=[fmt(s.a)+`–`+fmt(s.b),ROOMS[s.room].n,durTxt(s.dur),KINDS[s.kind],s.es?`Español`:``,s.track].filter(Boolean).join(` · `);
+  return `<article class="item r-${s.room}${on?` fav`:``}" data-card="${s.id}"><span class="dot">${ROOMS[s.room].c}</span><div>`+
+    `<h3><button type="button" class="open" data-open="${s.id}">${esc(s.title)}</button></h3>`+
+    (s.who.length?`<p class="who">${esc(s.who.join(` · `))}</p>`:``)+
+    `<p class="meta">${esc(meta)}</p>`+
+    (s.tags.length?`<ul class="tp">${s.tags.map(t=>`<li>${TOPICS[t]}</li>`).join(``)}</ul>`:``)+
+    (extra||``)+`</div>${starBtn(s)}</article>`;
+}
+function slotsHTML(items,extraFn){
+  const groups=[];
+  items.forEach(s=>{const g=groups[groups.length-1];if(g&&g.a===s.a)g.list.push(s);else groups.push({a:s.a,list:[s]})});
+  return groups.map(g=>`<div class="slot"><div class="tm">${fmt(g.a)}</div><div class="items">${g.list.map(s=>itemHTML(s,extraFn?extraFn(s):``)).join(``)}</div></div>`).join(``);
+}
+
+/* ---------- views ---------- */
+function viewGrid(){
+  const day=st.day===`all`?7:st.day;
+  const L=S.filter(s=>s.day===day);
+  const rooms=ROOM_ORDER.filter(r=>L.some(s=>s.room===r));
+  const t0=Math.floor(Math.min.apply(null,L.map(s=>s.a))/60)*60;
+  const t1=Math.ceil(Math.max.apply(null,L.map(s=>s.b))/60)*60;
+  const H=OFF+(t1-t0)*PX+10;
+  let hours=``;
+  for(let m=t0;m<=t1;m+=60)hours+=`<span style="top:${OFF+(m-t0)*PX}px">${fmt(m)}</span>`;
+  let h=`<div class="gridwrap" tabindex="0" aria-label="Grilla de horarios del ${DAYS[day].w.toLowerCase()}"><div class="tt" style="--n:${rooms.length};--H:${H}px;--hr:${60*PX}px;--hh:${30*PX}px;--off:${OFF}px">`;
+  h+=`<div class="hc corner"></div>`+rooms.map(r=>`<div class="hc r-${r}"><span class="dot">${ROOMS[r].c}</span>${ROOMS[r].n}<span class="rc">${L.filter(s=>s.room===r).length}</span></div>`).join(``);
+  h+=`<div class="gut">${hours}</div>`;
+  rooms.forEach(r=>{h+=`<div class="lane r-${r}">`+L.filter(s=>s.room===r).map(s=>blockHTML(s,t0)).join(``)+`</div>`});
+  h+=`</div></div>`;
+  const m=L.filter(match).length;
+  const count=(filtersActive()?`${m} de ${plural(L.length)} coinciden con los filtros; el resto se atenúa. `:`${plural(L.length)} el ${DAYS[day].w.toLowerCase()} ${day}. `)+`Tocá una charla para ver el detalle y la estrella para guardarla.`;
+  return {html:h,count:count};
+}
+function viewList(){
+  const days=st.day===`all`?[7,8,9]:[st.day];
+  let h=``,total=0;
+  days.forEach(d=>{
+    const items=S.filter(s=>s.day===d&&match(s)).sort(cmp);
+    if(!items.length)return;
+    total+=items.length;
+    h+=(days.length>1?`<h2 class="dh"><span>${DAYS[d].w}</span> ${DAYS[d].d}</h2>`:``)+slotsHTML(items);
+  });
+  if(!total)return {html:empty(`Sin resultados`,`Ninguna sesión coincide con los filtros.`,clearBtn),count:``};
+  return {html:h,count:`${plural(total)}. Las que empiezan a la misma hora se muestran juntas para comparar salas.`};
+}
+function agendaText(fav){
+  let t=`Mi agenda · Ekoparty 2026`,d=0;
+  fav.forEach(s=>{
+    if(s.day!==d){d=s.day;t+=`\n\n${DAYS[d].w} ${DAYS[d].d}`}
+    t+=`\n${fmt(s.a)}–${fmt(s.b)} · ${ROOMS[s.room].n} · ${s.title}`+(s.who.length?` (${s.who.join(`, `)})`:``);
+  });
+  return t;
+}
+function viewAgenda(){
+  if(!st.favs.size)return {html:empty(`Tu agenda está vacía`,`Tocá la estrella de cualquier charla en la grilla o la lista y aparece acá, con los cruces de horario marcados.`),count:``};
+  const days=st.day===`all`?[7,8,9]:[st.day];
+  const fav=S.filter(s=>st.favs.has(s.id)&&days.indexOf(s.day)>-1).sort(cmp);
+  if(!fav.length)return {html:empty(`Nada guardado ese día`,`Cambiá de día o sumá charlas desde la grilla o la lista.`),count:``};
+  const nConf=fav.filter(s=>fav.some(o=>ov(s,o))).length;
+  const confOf=s=>{
+    const c=fav.filter(o=>ov(s,o));
+    if(!c.length)return ``;
+    return `<p class="warn"><span class="pill">Se cruza</span>con ${c.map(o=>`${esc(o.title)} (${ROOMS[o.room].n}, ${fmt(o.a)}–${fmt(o.b)})`).join(`; `)}</p>`;
+  };
+  let h=`<div class="aghead"><p>${plural(fav.length)} guardadas${nConf?` · ${nConf} con cruce de horario`:``}</p><button type="button" class="btn ghost" data-act="copy">Copiar como texto</button></div>`;
+  if(st.fallback)h+=`<textarea id="agtxt" readonly aria-label="Tu agenda en texto">${esc(st.fallback)}</textarea>`;
+  days.forEach(d=>{
+    const L=fav.filter(s=>s.day===d);
+    if(!L.length)return;
+    h+=`<h2 class="dh"><span>${DAYS[d].w}</span> ${DAYS[d].d}</h2>`+slotsHTML(L,confOf);
+  });
+  return {html:h,count:``};
+}
+
+function render(){
+  const gw=$(`.gridwrap`);
+  const keep=gw&&st.key===st.view+st.day?[gw.scrollLeft,gw.scrollTop]:null;
+  const r=st.view===`grid`?viewGrid():st.view===`list`?viewList():viewAgenda();
+  $(`#out`).innerHTML=r.html;
+  $(`#count`).textContent=r.count;
+  st.key=st.view+st.day;
+  if(keep&&st.view===`grid`){const g=$(`.gridwrap`);g.scrollLeft=keep[0];g.scrollTop=keep[1]}
+  syncUI();
+  if(st.view===`agenda`&&st.fallback){const ta=$(`#agtxt`);if(ta){ta.focus();ta.select()}}
+}
+/* ---------- detail sheet ---------- */
+const sheet=$(`#sheet`), panel=$(`#panel`);
+function renderSheet(){
+  const s=byId[st.sheet];
+  if(!s)return;
+  const R=ROOMS[s.room], on=st.favs.has(s.id);
+  const cf=S.filter(o=>st.favs.has(o.id)&&ov(s,o));
+  let dl=`<dt>Oradores</dt><dd>${s.who.length?s.who.map(esc).join(`<br>`):`<span style="color:var(--ink-2)">No figuraba en la impresión</span>`}</dd>`;
+  if(s.track)dl+=`<dt>Espacio</dt><dd>${esc(s.track)}</dd>`;
+  if(s.kind)dl+=`<dt>Formato</dt><dd>${KINDS[s.kind]}</dd>`;
+  if(s.es)dl+=`<dt>Idioma</dt><dd>Español</dd>`;
+  if(s.tags.length)dl+=`<dt>Temas</dt><dd>${s.tags.map(t=>TOPICS[t]).join(` · `)}</dd>`;
+  panel.innerHTML=
+    `<div class="ph r-${s.room}"><span class="dot">${R.c}</span><span class="pr">${R.n}</span>`+
+    `<button type="button" class="x" data-act="close" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke-linecap="round"/></svg></button></div>`+
+    `<p class="pt">${DAYS[s.day].w} ${DAYS[s.day].d} · ${fmt(s.a)}–${fmt(s.b)} · ${durTxt(s.dur)}</p>`+
+    `<h2 id="sh-title">${esc(s.title)}</h2><dl>${dl}</dl>`+
+    (s.cut?`<p class="cutn">El título aparece cortado en la impresión original. El texto completo está en el sitio oficial.</p>`:``)+
+    (cf.length?`<p class="warn"><span class="pill">Se cruza</span>con ${cf.map(o=>esc(o.title)+` (`+ROOMS[o.room].n+`, `+fmt(o.a)+`–`+fmt(o.b)+`)`).join(`; `)}</p>`:``)+
+    `<div class="pa"><button type="button" class="btn" data-fav="${s.id}" aria-pressed="${on}">${on?`Quitar de mi agenda`:`Agregar a mi agenda`}</button>`+
+    `<a class="lnk" href="${SITE}" target="_blank" rel="noopener">Ver el sitio oficial ↗</a></div>`;
+}
+function openSheet(id,opener){
+  st.sheet=id;st.opener=opener||document.activeElement;
+  renderSheet();sheet.hidden=false;
+  const x=panel.querySelector(`.x`);if(x)x.focus();
+}
+function closeSheet(){
+  sheet.hidden=true;st.sheet=null;
+  if(st.opener&&document.contains(st.opener))st.opener.focus();
+}
+sheet.addEventListener(`click`,e=>{if(e.target===sheet)closeSheet()});
+sheet.addEventListener(`keydown`,e=>{
+  if(e.key!==`Tab`)return;
+  const f=Array.from(panel.querySelectorAll(`button,a[href]`));
+  if(!f.length)return;
+  const first=f[0],last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+});
+document.addEventListener(`keydown`,e=>{if(e.key===`Escape`&&!sheet.hidden)closeSheet()});
+
+/* ---------- toast ---------- */
+let toastTimer;
+function toast(m){
+  const t=$(`#toast`);t.textContent=m;t.hidden=false;
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.hidden=true},2400);
+}
+
+/* ---------- favorites ---------- */
+function toggleFav(id){
+  const s=byId[id];if(!s)return;
+  const on=!st.favs.has(id);
+  if(on)st.favs.add(id);else st.favs.delete(id);
+  saveFavs();
+  if(st.view===`agenda`){
+    render();
+    const n=$(`.star[data-fav="${id}"]`);
+    if(n)n.focus();else{const v=$(`[data-view="agenda"]`);if(v)v.focus()}
+  }else{
+    const l=on?`Quitar de mi agenda`:`Agregar a mi agenda`;
+    $$(`.star[data-fav="${id}"]`).forEach(b=>{b.setAttribute(`aria-pressed`,on);b.setAttribute(`aria-label`,l);b.title=l});
+    $$(`[data-card="${id}"]`).forEach(c=>c.classList.toggle(`fav`,on));
+    $(`#agn`).textContent=st.favs.size;
+  }
+  if(!sheet.hidden&&st.sheet===id){renderSheet();const b=panel.querySelector(`.btn`);if(b)b.focus()}
+  if(on){
+    const c=S.some(o=>st.favs.has(o.id)&&ov(s,o));
+    toast(c?`Agregada. Se cruza con otra charla de tu agenda.`:`Agregada a Mi agenda`);
+  }else toast(`Quitada de Mi agenda`);
+}
+async function copyAgenda(){
+  const fav=S.filter(s=>st.favs.has(s.id)&&(st.day===`all`||s.day===st.day)).sort(cmp);
+  const text=agendaText(fav);
+  try{
+    await navigator.clipboard.writeText(text);
+    st.fallback=null;toast(`Agenda copiada`);
+  }catch(e){
+    st.fallback=text;render();toast(`Seleccioná el texto y copialo`);
+  }
+}
+
+/* ---------- events ---------- */
+const flip=(set,v)=>{if(set.has(v))set.delete(v);else set.add(v)};
+document.addEventListener(`click`,e=>{
+  const el=e.target.closest(`[data-open],[data-fav],[data-view],[data-day],[data-room],[data-topic],[data-act]`);
+  if(!el)return;
+  const d=el.dataset;
+  if(d.open){openSheet(d.open,el);return}
+  if(d.fav){toggleFav(d.fav);return}
+  if(d.view){if(d.view===`grid`&&st.day===`all`)st.day=7;st.view=d.view;st.fallback=null;render();return}
+  if(d.day){st.day=d.day===`all`?`all`:+d.day;st.fallback=null;render();return}
+  if(d.room){flip(st.rooms,d.room);render();return}
+  if(d.topic){flip(st.topics,d.topic);render();return}
+  if(d.act===`es`){st.es=!st.es;render();return}
+  if(d.act===`clear`){st.rooms.clear();st.topics.clear();st.es=false;st.q=``;$(`#q`).value=``;render();return}
+  if(d.act===`copy`){copyAgenda();return}
+  if(d.act===`close`){closeSheet();return}
+});
+$(`#q`).addEventListener(`input`,e=>{st.q=norm(e.target.value.trim());render()});
+
+buildDays();buildFilters();render();
+})();
+</script>
+
+</body></html>
