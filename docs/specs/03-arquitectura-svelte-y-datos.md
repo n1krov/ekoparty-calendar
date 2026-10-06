@@ -9,6 +9,7 @@ Esta especificación define la arquitectura técnica detallada para la implement
 - **Runtime:** Node.js v26+ / ESM.
 - **Bundler:** Vite.
 - **Framework UI:** Svelte con TypeScript.
+- **Preprocesador TypeScript:** `vitePreprocess()` configurado en `svelte.config.js` y `vite.config.ts` para compilar bloques `<script lang="ts">`.
 - **Estilos:** Variables CSS globales en `app.css` con estilos encapsulados nativos por componente en bloques `<style>`, preservando los tokens de diseño, tipografías y el soporte de modo claro/oscuro.
 
 ---

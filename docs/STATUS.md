@@ -107,3 +107,4 @@
 - Se implementó el pipeline de GitHub Actions en `.github/workflows/deploy.yml`.
 - Se corrigió el error en GitHub Actions eliminando `cache: 'npm'` en `actions/setup-node@v4` debido a la ausencia inicial de `package-lock.json` en el repositorio, y se fijaron las versiones de Svelte a 4.x estable.
 - Se añadió un `package-lock.json` (lockfileVersion 3) para garantizar compatibilidad total con detectores de paquetes y herramientas de CI.
+- Se creó `svelte.config.js` y se actualizó `vite.config.ts` integrando `vitePreprocess()` para compilar bloques `<script lang="ts">` en los componentes Svelte durante el build.
