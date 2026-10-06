@@ -94,7 +94,7 @@
 - [ ] **Hito 6: Filtros Especializados y Adaptación Mobile-First**
   - [x] Redactar `docs/specs/05-filtros-especializados-redteam-devsecops-linux.md` (Tracks: Red Team, Linux & Bajo Nivel, DevSecOps).
   - [x] Redactar `docs/specs/06-diseno-y-experiencia-mobile-first.md` (Barra inferior móvil, drawer de filtros, compact hero, a11y táctil).
-  - [ ] Implementar módulo de tracks especializados (`src/data/special-tracks.ts`).
+  - [x] Implementar módulo de tracks especializados (`src/data/special-tracks.ts`), filtros y badges de UI.
   - [ ] Implementar Bottom Navigation Bar y Drawer de Filtros para móviles.
   - [ ] Ajustar CSS responsive, touch targets (>= 44px) y safe area insets.
 
@@ -117,3 +117,5 @@
 - Se eliminaron las aserciones de tipo TypeScript (`as`) de las expresiones en plantillas Svelte (`AgendaView`, `ListView`, `DetailSheet`) y se resolvió la advertencia a11y de `<nav role="tablist">` en `DayTabs`.
 - Se corrigieron errores tipográficos sintácticos en `src/data/raw-sessions.ts` (corchete extra en `{ k: 's'] }` en sesiones EKONONOS y Trust Is The Attack Surface), validando exitosamente la colección de datos con Node, y se agregó svelte-ignore para el tabindex de scroll accesible en `GridView`.
 - Se especificó formalmente el **Hito 6** en `docs/specs/05-filtros-especializados-redteam-devsecops-linux.md` (filtros personalizados para el perfil del usuario) y `docs/specs/06-diseno-y-experiencia-mobile-first.md` (rediseño mobile-first y ergonomía táctil).
+- Se implementó la **Spec 05**: módulo de datos `src/data/special-tracks.ts` con mapeo exhaustivo de las 68 charlas a los tracks de Linux & Bajo Nivel, Red Team & Exploits, y DevSecOps & Cloud. Se extendieron los tipos y stores reactivos (`activeSpecialTrack`, `toggleSpecialTrack`), se agregaron chips de foco destacados en `Toolbar.svelte`, y badges visuales específicos en `GridView.svelte`, `ListView.svelte` y `DetailSheet.svelte`.
+

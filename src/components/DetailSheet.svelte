@@ -1,7 +1,7 @@
-<script lang="ts">
   import { onMount, tick } from 'svelte';
   import { DAYS, KINDS, ROOMS, SITE, TOPICS } from '../data/constants';
   import { byId } from '../data/sessions';
+  import { getSessionSpecialTracks } from '../data/special-tracks';
   import { favorites, getSessionConflicts, toggleFavorite } from '../stores/favorites';
   import { closeSheet, sheetState } from '../stores/sheet';
   import { showToast } from '../stores/toast';
@@ -138,6 +138,15 @@
         {#if activeSession.tags.length}
           <dt>Temas</dt>
           <dd>{activeSession.tags.map((t) => TOPICS[t]).join(' · ')}</dd>
+        {/if}
+
+        {#if getSessionSpecialTracks(activeSession.id).length}
+          <dt>Foco</dt>
+          <dd>
+            {#each getSessionSpecialTracks(activeSession.id) as st}
+              <span class={`track-inline-badge track-${st.id}`}>{st.icon} {st.label}</span>
+            {/each}
+          </dd>
         {/if}
       </dl>
 

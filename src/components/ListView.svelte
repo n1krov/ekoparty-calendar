@@ -1,9 +1,10 @@
-<script lang="ts">
   import { DAYS, KINDS, ROOMS, TOPICS } from '../data/constants';
   import { sessions } from '../data/sessions';
+  import { getSessionSpecialTracks } from '../data/special-tracks';
   import { favorites, toggleFavorite } from '../stores/favorites';
   import {
     activeRooms,
+    activeSpecialTrack,
     activeTopics,
     clearAllFilters,
     matchSession,
@@ -43,7 +44,8 @@
               $activeRooms,
               $activeTopics,
               $onlySpanish,
-              $searchQuery
+              $searchQuery,
+              $activeSpecialTrack
             )
         )
         .sort(compareSessions);
@@ -140,8 +142,12 @@
                   <p class="who">{s.who.join(' · ')}</p>
                 {/if}
                 <p class="meta">{metaString}</p>
-                {#if s.tags.length}
+                {@const specialTracks = getSessionSpecialTracks(s.id)}
+                {#if s.tags.length || specialTracks.length}
                   <ul class="tp">
+                    {#each specialTracks as st}
+                      <li class={`track-pill pill-${st.id}`}>{st.icon} {st.badge}</li>
+                    {/each}
                     {#each s.tags as tag}
                       <li>{TOPICS[tag]}</li>
                     {/each}

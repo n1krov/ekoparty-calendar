@@ -1,9 +1,10 @@
-<script lang="ts">
   import { DAYS, OFF, PX, ROOM_ORDER, ROOMS } from '../data/constants';
   import { sessions } from '../data/sessions';
+  import { getSessionSpecialTracks } from '../data/special-tracks';
   import { favorites, toggleFavorite } from '../stores/favorites';
   import {
     activeRooms,
+    activeSpecialTrack,
     activeTopics,
     matchSession,
     onlySpanish,
@@ -43,11 +44,19 @@
   $: isFiltered =
     $activeRooms.size > 0 ||
     $activeTopics.size > 0 ||
+    Boolean($activeSpecialTrack) ||
     $onlySpanish ||
     $searchQuery !== '';
 
   $: matchCount = daySessions.filter((s) =>
-    matchSession(s, $activeRooms, $activeTopics, $onlySpanish, $searchQuery)
+    matchSession(
+      s,
+      $activeRooms,
+      $activeTopics,
+      $onlySpanish,
+      $searchQuery,
+      $activeSpecialTrack
+    )
   ).length;
 
   $: countText =
@@ -111,10 +120,12 @@
             $activeRooms,
             $activeTopics,
             $onlySpanish,
-            $searchQuery
+            $searchQuery,
+            $activeSpecialTrack
           )}
           {@const blockTop = OFF + (s.a - t0) * PX}
           {@const blockHeight = Math.max(s.dur * PX - 4, 64)}
+          {@const specialTracks = getSessionSpecialTracks(s.id)}
           <article
             class={`blk r-${s.room}${isFav ? ' fav' : ''}${!isMatch ? ' dim' : ''}`}
             data-card={s.id}
@@ -128,6 +139,11 @@
               {#if s.kind === 'l'}
                 <span class="tag" title="Lightning talk">LT</span>
               {/if}
+              {#each specialTracks as st}
+                <span class={`tag special-tag tag-${st.id}`} title={st.label}>
+                  {st.badge}
+                </span>
+              {/each}
               <button
                 type="button"
                 class="star"

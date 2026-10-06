@@ -6,6 +6,8 @@ export type TopicId = 'ia' | 'exp' | 'hw' | 'def' | 'id' | 'fin' | 'cti' | 'soc'
 
 export type KindId = 's' | 'l' | 'w' | 'c';
 
+export type SpecialTrackId = 'linux_lowlevel' | 'redteam_exploit' | 'devsecops_cloud';
+
 export interface RoomInfo {
   n: string; // Nombre completo (ej: 'Maintrack')
   c: string; // Código corto (ej: 'M')

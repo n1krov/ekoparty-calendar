@@ -1,5 +1,6 @@
 import { ROOMS, TOPICS } from '../data/constants';
-import type { RoomId, SelectedDay, Session, TopicId, ViewMode } from '../types';
+import { isSessionInSpecialTrack } from '../data/special-tracks';
+import type { RoomId, SelectedDay, Session, SpecialTrackId, TopicId, ViewMode } from '../types';
 import { norm } from '../utils/normalize';
 import { derived, writable } from './store-utils';
 
@@ -12,6 +13,7 @@ export const view = writable<ViewMode>(initialView);
 export const selectedDay = writable<SelectedDay>(7);
 export const activeRooms = writable<Set<RoomId>>(new Set());
 export const activeTopics = writable<Set<TopicId>>(new Set());
+export const activeSpecialTrack = writable<SpecialTrackId | null>(null);
 export const onlySpanish = writable<boolean>(false);
 export const searchQuery = writable<string>('');
 
@@ -19,10 +21,13 @@ export const hasActiveFilters = derived(
   activeRooms,
   ($rooms) => {
     let active = $rooms.size > 0;
-    // Comprobamos el resto de condiciones suscribiéndonos al estado
     return active;
   }
 );
+
+export function toggleSpecialTrack(trackId: SpecialTrackId): void {
+  activeSpecialTrack.update((current) => (current === trackId ? null : trackId));
+}
 
 export function toggleRoom(roomId: RoomId): void {
   activeRooms.update((set) => {
@@ -59,6 +64,7 @@ export function setSearchQuery(q: string): void {
 export function clearAllFilters(): void {
   activeRooms.set(new Set());
   activeTopics.set(new Set());
+  activeSpecialTrack.set(null);
   onlySpanish.set(false);
   searchQuery.set('');
 }
@@ -68,8 +74,12 @@ export function matchSession(
   rooms: Set<RoomId>,
   topics: Set<TopicId>,
   es: boolean,
-  q: string
+  q: string,
+  specialTrack?: SpecialTrackId | null
 ): boolean {
+  if (specialTrack && !isSessionInSpecialTrack(s.id, specialTrack)) {
+    return false;
+  }
   if (rooms.size > 0 && !rooms.has(s.room)) {
     return false;
   }

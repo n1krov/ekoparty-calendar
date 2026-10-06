@@ -1,4 +1,4 @@
-import type { DayId, RoomId, TopicId } from './session';
+import type { DayId, RoomId, SpecialTrackId, TopicId } from './session';
 
 export type ViewMode = 'grid' | 'list' | 'agenda';
 
@@ -9,6 +9,7 @@ export interface FilterState {
   day: SelectedDay;
   rooms: Set<RoomId>;
   topics: Set<TopicId>;
+  specialTrack: SpecialTrackId | null;
   es: boolean;
   q: string;
 }

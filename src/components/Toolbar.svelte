@@ -1,8 +1,9 @@
-<script lang="ts">
   import { ROOM_ORDER, ROOMS, TOPICS } from '../data/constants';
+  import { SPECIAL_TRACK_LIST } from '../data/special-tracks';
   import { favorites } from '../stores/favorites';
   import {
     activeRooms,
+    activeSpecialTrack,
     activeTopics,
     clearAllFilters,
     onlySpanish,
@@ -11,6 +12,7 @@
     setSearchQuery,
     toggleRoom,
     toggleSpanish,
+    toggleSpecialTrack,
     toggleTopic,
     view,
   } from '../stores/filters';
@@ -21,6 +23,7 @@
   $: isFiltered =
     $activeRooms.size > 0 ||
     $activeTopics.size > 0 ||
+    Boolean($activeSpecialTrack) ||
     $onlySpanish ||
     $searchQuery !== '';
 
@@ -81,6 +84,24 @@
 
   {#if $view !== 'agenda'}
     <div id="filters" class="toolbar" style="margin-top: 0">
+      <div class="fgroup">
+        <span class="lbl">Foco</span>
+        <div class="chips" id="special-tracks">
+          {#each SPECIAL_TRACK_LIST as track}
+            <button
+              type="button"
+              class={`chip special-chip track-${track.id}`}
+              aria-pressed={$activeSpecialTrack === track.id}
+              on:click={() => toggleSpecialTrack(track.id)}
+              title={track.description}
+            >
+              <span>{track.icon}</span>
+              {track.label}
+            </button>
+          {/each}
+        </div>
+      </div>
+
       <div class="fgroup">
         <span class="lbl">Sala</span>
         <div class="chips" id="rooms">

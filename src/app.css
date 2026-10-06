@@ -972,3 +972,127 @@ h1 em {
     animation: none !important;
   }
 }
+
+/* Special Tracks: Red Team, Linux & Bajo Nivel, DevSecOps */
+.special-chip {
+  font-weight: 600;
+  border-width: 1.5px;
+  transition: all 0.15s ease;
+}
+
+.special-chip.track-linux_lowlevel[aria-pressed="true"] {
+  background: #14A57F;
+  border-color: #14A57F;
+  color: #FFFFFF;
+}
+
+.special-chip.track-redteam_exploit[aria-pressed="true"] {
+  background: #F2542D;
+  border-color: #F2542D;
+  color: #FFFFFF;
+}
+
+.special-chip.track-devsecops_cloud[aria-pressed="true"] {
+  background: #2F80F5;
+  border-color: #2F80F5;
+  color: #FFFFFF;
+}
+
+.special-tag {
+  font-weight: 700;
+}
+
+.tag-linux_lowlevel {
+  background: color-mix(in srgb, #14A57F 20%, transparent);
+  border-color: #14A57F;
+  color: #0A6A51;
+}
+
+.tag-redteam_exploit {
+  background: color-mix(in srgb, #F2542D 20%, transparent);
+  border-color: #F2542D;
+  color: #B93513;
+}
+
+.tag-devsecops_cloud {
+  background: color-mix(in srgb, #2F80F5 20%, transparent);
+  border-color: #2F80F5;
+  color: #1B54B5;
+}
+
+.track-pill {
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.pill-linux_lowlevel {
+  background: color-mix(in srgb, #14A57F 15%, transparent);
+  border-color: #14A57F;
+  color: #0A6A51;
+}
+
+.pill-redteam_exploit {
+  background: color-mix(in srgb, #F2542D 15%, transparent);
+  border-color: #F2542D;
+  color: #B93513;
+}
+
+.pill-devsecops_cloud {
+  background: color-mix(in srgb, #2F80F5 15%, transparent);
+  border-color: #2F80F5;
+  color: #1B54B5;
+}
+
+.track-inline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
+
+.track-inline-badge.track-linux_lowlevel {
+  background: color-mix(in srgb, #14A57F 18%, var(--surface));
+  color: #0A6A51;
+  border: 1px solid #14A57F;
+}
+
+.track-inline-badge.track-redteam_exploit {
+  background: color-mix(in srgb, #F2542D 18%, var(--surface));
+  color: #B93513;
+  border: 1px solid #F2542D;
+}
+
+.track-inline-badge.track-devsecops_cloud {
+  background: color-mix(in srgb, #2F80F5 18%, var(--surface));
+  color: #1B54B5;
+  border: 1px solid #2F80F5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tag-linux_lowlevel,
+  :root:not([data-theme="light"]) .pill-linux_lowlevel,
+  :root:not([data-theme="light"]) .track-inline-badge.track-linux_lowlevel {
+    color: #5BE3BB;
+    border-color: #2FD1A3;
+  }
+  :root:not([data-theme="light"]) .tag-redteam_exploit,
+  :root:not([data-theme="light"]) .pill-redteam_exploit,
+  :root:not([data-theme="light"]) .track-inline-badge.track-redteam_exploit {
+    color: #FF8E70;
+    border-color: #FF6A45;
+  }
+  :root:not([data-theme="light"]) .tag-devsecops_cloud,
+  :root:not([data-theme="light"]) .pill-devsecops_cloud,
+  :root:not([data-theme="light"]) .track-inline-badge.track-devsecops_cloud {
+    color: #8DBEFF;
+    border-color: #5AA2FF;
+  }
+}
+
