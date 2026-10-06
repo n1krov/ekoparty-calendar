@@ -85,6 +85,10 @@
       aria-labelledby="sh-title"
       bind:this={panelElement}
     >
+      <div class="sheet-drag-handle-wrap" on:click={closeSheet}>
+        <div class="drag-handle"></div>
+      </div>
+
       <div class={`ph r-${activeSession.room}`}>
         <span class="dot">{ROOMS[activeSession.room].c}</span>
         <span class="pr">{ROOMS[activeSession.room].n}</span>
@@ -168,7 +172,7 @@
         </p>
       {/if}
 
-      <div class="pa">
+      <div class="pa sheet-actions-sticky">
         <button
           type="button"
           class="btn"

@@ -17,12 +17,34 @@ export const activeSpecialTrack = writable<SpecialTrackId | null>(null);
 export const onlySpanish = writable<boolean>(false);
 export const searchQuery = writable<string>('');
 
-export const hasActiveFilters = derived(
-  activeRooms,
-  ($rooms) => {
-    let active = $rooms.size > 0;
-    return active;
+export const isFilterDrawerOpen = writable<boolean>(false);
+
+export function openFilterDrawer(): void {
+  isFilterDrawerOpen.set(true);
+}
+
+export function closeFilterDrawer(): void {
+  isFilterDrawerOpen.set(false);
+}
+
+export function toggleFilterDrawer(): void {
+  isFilterDrawerOpen.update((v) => !v);
+}
+
+export const activeFilterCount = derived(
+  [activeRooms, activeTopics, activeSpecialTrack, onlySpanish, searchQuery],
+  ([$rooms, $topics, $special, $es, $q]) => {
+    let count = $rooms.size + $topics.size;
+    if ($special) count += 1;
+    if ($es) count += 1;
+    if ($q) count += 1;
+    return count;
   }
+);
+
+export const hasActiveFilters = derived(
+  activeFilterCount,
+  ($count) => $count > 0
 );
 
 export function toggleSpecialTrack(trackId: SpecialTrackId): void {

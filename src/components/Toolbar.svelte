@@ -2,11 +2,13 @@
   import { SPECIAL_TRACK_LIST } from '../data/special-tracks';
   import { favorites } from '../stores/favorites';
   import {
+    activeFilterCount,
     activeRooms,
     activeSpecialTrack,
     activeTopics,
     clearAllFilters,
     onlySpanish,
+    openFilterDrawer,
     searchQuery,
     selectedDay,
     setSearchQuery,
@@ -69,16 +71,40 @@
       </button>
     </div>
 
-    <div class="search">
-      <label class="sr" for="q">Buscar charla, orador o tema</label>
-      <input
-        id="q"
-        type="search"
-        placeholder="Buscar charla, orador, sala o tema"
-        autocomplete="off"
-        value={$searchQuery}
-        on:input={handleSearchInput}
-      />
+    <div class="search-wrap">
+      <div class="search">
+        <label class="sr" for="q">Buscar charla, orador o tema</label>
+        <input
+          id="q"
+          type="search"
+          placeholder="Buscar charla, orador, sala o tema"
+          autocomplete="off"
+          value={$searchQuery}
+          on:input={handleSearchInput}
+        />
+      </div>
+      <button
+        type="button"
+        class="mobile-filter-btn"
+        aria-label={`Abrir panel de filtros (${$activeFilterCount} activos)`}
+        on:click={openFilterDrawer}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="m-filt-icon">
+          <line x1="4" y1="21" x2="4" y2="14" stroke-width="2" stroke-linecap="round" />
+          <line x1="4" y1="10" x2="4" y2="3" stroke-width="2" stroke-linecap="round" />
+          <line x1="12" y1="21" x2="12" y2="12" stroke-width="2" stroke-linecap="round" />
+          <line x1="12" y1="8" x2="12" y2="3" stroke-width="2" stroke-linecap="round" />
+          <line x1="20" y1="21" x2="20" y2="16" stroke-width="2" stroke-linecap="round" />
+          <line x1="20" y1="12" x2="20" y2="3" stroke-width="2" stroke-linecap="round" />
+          <line x1="1" y1="14" x2="7" y2="14" stroke-width="2" stroke-linecap="round" />
+          <line x1="9" y1="8" x2="15" y2="8" stroke-width="2" stroke-linecap="round" />
+          <line x1="17" y1="16" x2="23" y2="16" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span>Filtros</span>
+        {#if $activeFilterCount > 0}
+          <span class="m-filt-badge">{$activeFilterCount}</span>
+        {/if}
+      </button>
     </div>
   </div>
 
